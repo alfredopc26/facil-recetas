@@ -1,0 +1,8 @@
+{
+  "name": "FacilRecetas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite",
+  "id": "1a34b7b8"
+}
