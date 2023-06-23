@@ -1,31 +1,56 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import TabsPage from '../views/TabsPage.vue'
+import TabLayout from '../layout/TabLayout.vue'
+import LoginPage from '../views/LoginPage.vue'
+import ScreenInitial from '../views/splashscreen/ScreenInitial.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
+    path: '/login',
+    component: LoginPage,
+  },
+  {
+    path: '/initial',
+    component: ScreenInitial,
+  },
+  {
     path: '/',
-    redirect: '/tabs/tab1'
+    redirect: '/tabs/home',
+    meta: { requiresAuth: true }
   },
   {
     path: '/tabs/',
-    component: TabsPage,
+    component: TabLayout,
+    meta: { requiresAuth: true },
     children: [
       {
         path: '',
-        redirect: '/tabs/tab1'
+        redirect: '/tabs/home'
       },
       {
-        path: 'tab1',
-        component: () => import('@/views/Tab1Page.vue')
+        path: 'explore',
+        component: () => import('@/views/ExplorerPage.vue'),
+        meta: { title: 'Explorar recetas' }
       },
       {
-        path: 'tab2',
-        component: () => import('@/views/Tab2Page.vue')
+        path: 'home',
+        component: () => import('@/views/HomePage.vue'),
+        meta: { title: 'Inicio' }
       },
       {
-        path: 'tab3',
-        component: () => import('@/views/Tab3Page.vue')
+        path: 'add',
+        component: () => import('@/views/AddRecettePage.vue'),
+        meta: { title: 'Publica una receta' }
+      },
+      {
+        path: 'comunidad',
+        component: () => import('@/views/Tab3Page.vue'),
+        meta: { title: 'Comunidad' }
+      },
+      {
+        path: 'profile',
+        component: () => import('@/views/Tab3Page.vue'),
+        meta: { title: 'Perfil de usuario' }
       }
     ]
   }
@@ -35,5 +60,27 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = true;
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const isFirstTime = localStorage.getItem('isFirstTime');
+
+  if (!isFirstTime) {
+    localStorage.setItem('isFirstTime', 'true');
+    if (requiresAuth && !isAuthenticated) {
+      next('/initial'); // Redirecciona al usuario al login si no está autenticado
+    } else {
+      next();
+    }
+  }else{
+    if (requiresAuth && !isAuthenticated) {
+      next('/tabs/home'); // Redirecciona al usuario al login si no está autenticado
+    } else {
+      next();
+    }
+  }
+
+});
 
 export default router
