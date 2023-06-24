@@ -17,6 +17,7 @@
           <AvatarProfile image="images/logo-kp.png"></AvatarProfile>
         </div>
       </div>
+
       <div class="search-content mt-4 d-flex">
         <div class="search-bar px-2">
           <ion-searchbar showCancelButton="focus" class="custom"></ion-searchbar>
@@ -27,6 +28,7 @@
           </ion-button>
         </div>
       </div>
+
       <div class="content-scrolling">
         <ChipBase class="scrolling-items" v-for="category of dataCategory" :key="category"
         :avatar="category.image"
@@ -34,48 +36,84 @@
         ></ChipBase>
       </div>
 
-
-
-        <div class="living-cooking mt-5 d-flex ">
-          <div class="ps-4">
-            <div>
-              <ion-text color="dark" >
-                  <p class="text-dashboard title"><strong>Cocina en vivo</strong></p>
-              </ion-text>
-            </div>
-            <div>
-              <ChipBase 
-              :avatar="'images/live.png'"
-              :label="'Live'"
-              ></ChipBase>
-            </div>
-          </div>            
-          <div class="pe-4">
-            <ion-button color="medium">
-              <ion-icon :icon="appsOutline"></ion-icon>
-            </ion-button>
+      <div class="living-cooking mt-5 d-flex ">
+        <div class="ps-4">
+          <div>
+            <ion-text color="dark" >
+                <p class="text-dashboard title"><strong>Cocina en vivo</strong></p>
+            </ion-text>
           </div>
+          <div>
+            <ChipBase 
+            :avatar="'images/live.png'"
+            :label="'Live'"
+            ></ChipBase>
+          </div>
+        </div>            
+        <div class="pe-4">
+          <ion-button color="medium">
+            <ion-icon :icon="appsOutline"></ion-icon>
+          </ion-button>
         </div>
+      </div>
 
+      <div class="content-scrolling">
+        <LiveCard
+        v-for="livecard of livecards"
+        :key="livecard"
+        :avatar="livecard.image"
+        :username="livecard.username"
+        :description="livecard.title"
+        ></LiveCard>
+      </div>
 
-        <div class="list-live-items">
-          <ion-card class="card-live">
-            <ion-card-header>
-              <ion-chip class="chip-user w-50">
-                <ion-avatar>
-                  <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                </ion-avatar>
-                <ion-label>alfredopc</ion-label>
-              </ion-chip>
-            </ion-card-header>
-            <ion-card-content>
-              <div class="text-front-card">
-                Here's a small text description for the card content. Nothing more, nothing less.
-              </div>
-
-            </ion-card-content>
-          </ion-card>
+      <div class="living-cooking mt-3 d-flex ">
+        <div class="ps-4">
+          <div>
+            <ion-text color="dark" >
+              <p class="text-dashboard title"><strong>Top Receteros</strong></p>
+            </ion-text>
+          </div>
+        </div>            
+        <div class="pe-4">
+          <p class="title text-decoration-underline">Ver todos</p>
         </div>
+      </div>
+
+      <div class="content-scrolling">
+        <ChefCard
+        v-for="chefcard of chefcards"
+        :key="chefcard"
+        :image="chefcard.image"
+        :username="chefcard.username"
+        :description="chefcard.numberRecipes"
+        ></ChefCard>
+      </div>
+
+      <div class="living-cooking mt-3 d-flex ">
+        <div class="ps-4">
+          <div>
+            <ion-text color="dark" >
+              <p class="text-dashboard title"><strong>Recetas populares</strong></p>
+            </ion-text>
+          </div>
+        </div>            
+        <div class="pe-4">
+          <p class="title text-decoration-underline">Ver todas</p>
+        </div>
+      </div>
+
+      <div class="content-top-recipe pb-5">
+        <CardTopRecipes
+        v-for="recipes of recipesCards"
+        :key="recipes"
+        :image="recipes.image"
+        :title="recipes.title"
+        :time="recipes.time"
+        :saved="recipes.saved"
+        :ingredientTotal="recipes.ingredientTotal"
+        ></CardTopRecipes>
+      </div>
 
     </ion-content>
   </ion-page>
@@ -83,40 +121,6 @@
 <style scoped>
   ion-searchbar.custom {
     --border-radius: 8px;
-  }
-
-  .text-front-card{
-    display: flex;
-    width: 219.184px;
-    flex-direction: column;
-    flex-shrink: 0;
-    color: #FFF;
-    font-size: 18px;
-    font-family: "Poppins";
-    font-weight: 700;
-    line-height: 24px;
-    letter-spacing: -0.36px;
-  }
-
-  .card-live{
-    border-radius: 10px;
-    width: 266px;
-    height: 203px;
-    flex-shrink: 0;
-    border: 1px solid #000;
-    opacity: 0.80000001192092896;
-    background: linear-gradient(179.98deg, rgba(0, 0, 0, 0.4) 0.01%, #000000 99.99%), url('/images/bg-initial-375x812.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  }
-
-  .chip-user{
-    display: inline-flex;
-    gap: 10px;
-    border-radius: 14.5px;
-    background: rgba(255, 255, 255, 0.22);
-    backdrop-filter: blur(6px);
   }
 .content-text-dashboard{
   margin-top: 2rem;
@@ -139,14 +143,19 @@
   color: #A9A9A9;
 }
 .content-scrolling{
-  width: 500px;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
-  overflow-x:scroll
+  overflow-x:scroll;
+}
+.content-top-recipe{
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 .scrolling-items{
-  min-width: 100px;
+  min-width: 120px;
   margin-right: 10px;
   flex-grow: 1;
 }
@@ -159,10 +168,13 @@
   import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
   import CardPostRecette from '@/components/CardPostRecette.vue';
   import { optionsOutline, close, closeCircle, appsOutline,radioOutline } from 'ionicons/icons';
-  import { IRecette, ICategory } from '@/utils/types';
+  import { IRecette, ICategory, ILiveItems, IChefItems, IRecipesCard } from '@/utils/types';
 
   import AvatarProfile from '@/components/AvatarProfile.vue';
   import ChipBase from '@/components/ChipBase.vue';
+  import LiveCard from '@/components/LiveCard.vue';
+  import ChefCard from '@/components/ChefCard.vue';
+  import CardTopRecipes from '@/components/CardTopRecipes.vue';
 
   import { ref } from 'vue';
   
@@ -206,6 +218,28 @@
     }
   ]
 
+  const livecards:ILiveItems[] = [
+    {
+      username: 'alfredopc26',
+      image: 'images/logo-kp.png',
+      title: 'Rico sanchocho en vivo 🥗🍲'
+    },
+    {
+      username: 'alfredopc26',
+      image: 'images/logo-kp.png',
+      title: 'Rico sanchocho en vivo 🥗🍲'
+    },
+    {
+      username: 'alfredopc26',
+      image: 'images/logo-kp.png',
+      title: 'Rico sanchocho en vivo 🥗🍲'
+    },
+    {
+      username: 'alfredopc26',
+      image: 'images/logo-kp.png',
+      title: 'Rico sanchocho en vivo 🥗🍲'
+    }
+  ]
   const dataCategory:ICategory[] = [
     {
       title: 'Sancochos',
@@ -230,6 +264,61 @@
     {
       title: 'Cenas',
       image: '/images/soup.png'
+    }
+  ]
+  const chefcards:IChefItems[] = [
+    {
+      username: 'alfredopc26',
+      image: 'images/alfre.jpg',
+      numberRecipes: 80
+    },
+    {
+      username: 'alfredopc26',
+      image: 'images/logo-kp.png',
+      numberRecipes: 50
+    },
+    {
+      username: 'alfredopc26',
+      image: 'images/logo-kp.png',
+      numberRecipes: 50
+    },
+    {
+      username: 'alfredopc26',
+      image: 'images/logo-kp.png',
+      numberRecipes: 50
+    }
+  ]
+  const recipesCards:IRecipesCard[] = [
+    {
+      title: 'Sancocho de costilla',
+      image: 'images/sancocho-costilla.jpg',
+      ingredientTotal: 80,
+      time: 12
+    },
+    {
+      title: 'Arroz trifásico',
+      image: 'images/alfre.jpg',
+      ingredientTotal: 80,
+      time: 12,
+      saved: true
+    },
+    {
+      title: 'Costillas BBQ',
+      image: 'images/alfre.jpg',
+      ingredientTotal: 80,
+      time: 12
+    },
+    {
+      title: 'Carne Guisada',
+      image: 'images/alfre.jpg',
+      ingredientTotal: 80,
+      time: 12
+    },
+    {
+      title: 'Arepa de huevo',
+      image: 'images/alfre.jpg',
+      ingredientTotal: 80,
+      time: 12
     }
   ]
   </script>

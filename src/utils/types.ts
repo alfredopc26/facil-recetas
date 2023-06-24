@@ -9,3 +9,23 @@ export interface ICategory {
     title?: string;
     image?: string;
 }
+
+export interface ILiveItems {
+    username?: string;
+    image?: string;
+    title?: string;
+}
+
+export interface IChefItems {
+    username?: string;
+    image?: string;
+    numberRecipes?: number;
+}
+
+export interface IRecipesCard {
+    title?: string;
+    time?: number;
+    ingredientTotal?: number;
+    image?: string;
+    saved?:boolean;
+}
