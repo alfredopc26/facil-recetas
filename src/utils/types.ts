@@ -29,3 +29,10 @@ export interface IRecipesCard {
     image?: string;
     saved?:boolean;
 }
+
+export interface IUser{
+    name: string;
+    username: string;
+    email: string;   
+    photo?: string; 
+}

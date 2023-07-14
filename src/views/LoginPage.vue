@@ -35,7 +35,7 @@
         </div>
 
         <div class="content-login-social d-flex justify-content-center">
-            <ion-chip>
+            <ion-chip @click="store.dispatch('auth/loginGoogle')">
                 <ion-avatar>
                     <img alt="Silhouette of a person's head" src="/images/icons8-google-240.png" />
                 </ion-avatar>
@@ -49,43 +49,17 @@
             </ion-text>
         </div>
     </ion-content>
-    <!-- <ion-page>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Login</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <div class="ion-text-center">
-          <h2>Bienvenido</h2>
-          <ion-button expand="block" @click="loginWithGoogle">
-            Iniciar sesión con Google
-          </ion-button>
-        </div>
-      </ion-content>
-    </ion-page> -->
+
   </template>
   
   <script setup lang="ts">
     import { ref } from 'vue';
-    import { useFirestore } from 'vuefire';
-    import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+    import { useAuth0 } from '@auth0/auth0-vue';
     import { arrowForwardOutline, logoGoogle } from 'ionicons/icons';
+    import { Browser } from "@capacitor/browser";
+    import { useStore } from 'vuex';
 
-    const auth = getAuth();
-    const isAuthenticated = ref(false);
-
-    const loginWithGoogle = async () => {
-      try {
-        const provider = new GoogleAuthProvider();
-        await signInWithPopup(auth, provider);
-        isAuthenticated.value = true;
-        // Aquí puedes realizar alguna acción después de iniciar sesión exitosamente
-      } catch (error) {
-        console.error(error);
-        // Manejo de errores en caso de fallo en el inicio de sesión con Google
-      }
-    };
+    const store = useStore();
 
   </script>
   

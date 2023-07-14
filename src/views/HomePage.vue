@@ -9,12 +9,12 @@
       <div class="content-text-dashboard d-flex">
         <div class="w-100">
           <ion-text color="dark" >
-                <p class="text-dashboard title"><strong>Hola Alfre,</strong></p>
+                <p class="text-dashboard title"><strong>Hola {{ user.username }},</strong></p>
                 <p class="text-dashboard subtitle">Que quieres cocinar hoy ?</p>
             </ion-text>
         </div>
         <div class="d-flex justify-content-end">
-          <AvatarProfile image="images/logo-kp.png"></AvatarProfile>
+          <AvatarProfile :image="user.photo"></AvatarProfile>
         </div>
       </div>
 
@@ -28,13 +28,7 @@
           </ion-button>
         </div>
       </div>
-
-      <div class="content-scrolling">
-        <ChipBase class="scrolling-items" v-for="category of dataCategory" :key="category"
-        :avatar="category.image"
-        :label="category.title"
-        ></ChipBase>
-      </div>
+      <CategoryScrollingX :data-category="dataCategory"></CategoryScrollingX>
 
       <div class="living-cooking mt-5 d-flex ">
         <div class="ps-4">
@@ -165,16 +159,37 @@
 }
 </style>
 <script setup lang="ts">
+  import { computed, onMounted  } from 'vue';
   import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-  import CardPostRecette from '@/components/CardPostRecette.vue';
   import { optionsOutline, close, closeCircle, appsOutline,radioOutline } from 'ionicons/icons';
-  import { IRecette, ICategory, ILiveItems, IChefItems, IRecipesCard } from '@/utils/types';
+  import { IRecette, ICategory, ILiveItems, IChefItems, IRecipesCard, IUser } from '@/utils/types';
+
+  import { useStore } from 'vuex';
+
+  const store = useStore();
+
+  const user = ref({} as IUser)
+
+  onMounted(async function () {
+      await store.dispatch('auth/getAuthClient');
+      const auth0Client = computed(() => store.state.auth.auth0Client);
+      await auth0Client.value.getUser().then( result => {
+              console.log('user', result);
+              user.value = {
+                name: result.name,
+                email: result.email,
+                username: result.nickname,
+                photo: result.picture
+              }
+            })
+  })
 
   import AvatarProfile from '@/components/AvatarProfile.vue';
   import ChipBase from '@/components/ChipBase.vue';
   import LiveCard from '@/components/LiveCard.vue';
   import ChefCard from '@/components/ChefCard.vue';
   import CardTopRecipes from '@/components/CardTopRecipes.vue';
+  import CategoryScrollingX from '@/components/CategoryScrollingX.vue';
 
   import { ref } from 'vue';
   

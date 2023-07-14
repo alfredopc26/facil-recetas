@@ -1,9 +1,10 @@
-import { initializeApp } from 'firebase/app'
-import { getFirestore, collection } from 'firebase/firestore'
-// ... other firebase imports
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-export const firebaseApp = initializeApp({
-  // your application settings
+// Your web app's Firebase configuration
+const firebaseConfig = {
   apiKey: "AIzaSyAlYlI6uE7akFHWYFz9mVLx8kzMbrgpKEA",
   authDomain: "food-mds.firebaseapp.com",
   databaseURL: "https://food-mds-default-rtdb.firebaseio.com",
@@ -11,10 +12,7 @@ export const firebaseApp = initializeApp({
   storageBucket: "food-mds.appspot.com",
   messagingSenderId: "347637651471",
   appId: "1:347637651471:web:39d3eb06a0b6f2d4d42b7a"
-})
+};
 
-// used for the firestore refs
-const db = getFirestore(firebaseApp)
-
-// here we can export reusable database references
-export const todosRef = collection(db, 'todos')
+// Initialize Firebase
+export const firebaseApp = initializeApp(firebaseConfig);

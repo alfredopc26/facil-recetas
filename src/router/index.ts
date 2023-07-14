@@ -3,6 +3,8 @@ import { RouteRecordRaw } from 'vue-router';
 import TabLayout from '../layout/TabLayout.vue'
 import LoginPage from '../views/LoginPage.vue'
 import ScreenInitial from '../views/splashscreen/ScreenInitial.vue'
+import LoadDataUser from '../views/LoadDataUser.vue'
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -53,34 +55,16 @@ const routes: Array<RouteRecordRaw> = [
         meta: { title: 'Perfil de usuario' }
       }
     ]
-  }
+  },
+  {
+    path: '/load-user',
+    component: LoadDataUser,
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
-
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = true;
-  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-  const isFirstTime = localStorage.getItem('isFirstTime');
-
-  if (!isFirstTime) {
-    localStorage.setItem('isFirstTime', 'true');
-    if (requiresAuth && !isAuthenticated) {
-      next('/initial'); // Redirecciona al usuario al login si no está autenticado
-    } else {
-      next();
-    }
-  }else{
-    if (requiresAuth && !isAuthenticated) {
-      next('/tabs/home'); // Redirecciona al usuario al login si no está autenticado
-    } else {
-      next();
-    }
-  }
-
-});
 
 export default router

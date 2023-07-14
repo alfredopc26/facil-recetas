@@ -34,9 +34,11 @@
   </template>
   
   <script setup lang="ts">
-  import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonMenu, IonMenuButton, IonButtons } from '@ionic/vue';
-  import { ellipse, square, triangle, gridOutline, homeOutline, addCircleSharp, moon, peopleOutline, personCircleOutline } from 'ionicons/icons';
+    import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonMenu, IonMenuButton, IonButtons } from '@ionic/vue';
+    import { ellipse, square, triangle, gridOutline, homeOutline, addCircleSharp, moon, peopleOutline, personCircleOutline } from 'ionicons/icons';
 
-
+    import { onMounted } from 'vue';
+    import router from '@/router';
+  
   </script>
   
