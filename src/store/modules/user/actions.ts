@@ -2,7 +2,6 @@ import axios from "../../../plugins/axios";
 import { createAuth0Client, Auth0Client } from '@auth0/auth0-spa-js';
 import { domain as auth0Domain, clientId, callbackUri, audience } from "../../../auth0.config";
 import { Browser } from "@capacitor/browser";
-import { IUser } from "@/utils/types";
 
 const errorFunction = (error: any) => {
   if(error.response?.data?.statusCode){
@@ -82,18 +81,10 @@ export async function loginGoogle({ dispatch }: any) {
 
 export function getCurrentUser({ commit, state }: any, force: boolean = false){
   if(!state.user || force){
-    return axios.get(`users`)
+    return axios.get(`user/get/`)
     .then(response => {
       if (response?.data) {
-        const userData = {} as IUser;
-
-        userData['email'] = response.data?.email;
-        userData['name'] = response.data?.name;
-        userData['photo'] = response.data?.picture;
-        userData['id'] = response.data?._id;
-        userData['user_id'] = response.data?.user_id;
-
-        commit('setUserData', userData);
+        commit('setUser', response.data);
         return response.data;
       } else {
         return {"statusCode": 500, "message": "Unexpected login error"};

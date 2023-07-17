@@ -9,7 +9,7 @@
       <div class="content-text-dashboard d-flex">
         <div class="w-100">
           <ion-text color="dark" >
-                <p class="text-dashboard title"><strong>Hola {{ user.username }},</strong></p>
+                <p class="text-dashboard title"><strong>Hola {{ user.name }},</strong></p>
                 <p class="text-dashboard subtitle">Que quieres cocinar hoy ?</p>
             </ion-text>
         </div>
@@ -159,7 +159,7 @@
 }
 </style>
 <script setup lang="ts">
-  import { computed, onMounted  } from 'vue';
+  import { computed, onMounted, watch, watchEffect  } from 'vue';
   import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
   import { optionsOutline, close, closeCircle, appsOutline,radioOutline } from 'ionicons/icons';
   import { IRecette, ICategory, ILiveItems, IChefItems, IRecipesCard, IUser } from '@/utils/types';
@@ -168,20 +168,16 @@
 
   const store = useStore();
 
-  const user = ref({} as IUser)
+  const user = ref({} as IUser);
+
+  watchEffect(() => {
+    if(store.state.auth?.user){
+      user.value = store.state.auth?.user;
+    }
+  });
 
   onMounted(async function () {
-      await store.dispatch('auth/getAuthClient');
-      const auth0Client = computed(() => store.state.auth.auth0Client);
-      await auth0Client.value.getUser().then( result => {
-              console.log('user', result);
-              user.value = {
-                name: result.name,
-                email: result.email,
-                username: result.nickname,
-                photo: result.picture
-              }
-            })
+
   })
 
   import AvatarProfile from '@/components/AvatarProfile.vue';

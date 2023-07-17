@@ -39,23 +39,22 @@ onMounted(async () => {
 
 
       await store.dispatch('auth/getAuthClient')
-      .then<Auth0Client>(async (auth0Client) => {
+      .then<Auth0Client>(async (auth0Client: any) => {
           const validate_user = await auth0Client.isAuthenticated();
-          console.log('auth0Client', await auth0Client.isAuthenticated());
+          console.log('auth0Client', validate_user);
           
           if (validate_user) {
-            return await auth0Client.getUser();
+            return await store.dispatch('auth/getCurrentUser');
           }
           throw new Error("User is not autenticated");
         })
-        .then(async user_data => {
-          console.log('user_data', user_data);          
-          return user_data
-        })
-        .catch(err => {
-          console.error(err);
-          location.replace('/login');
-        })
+      .then(async user_data => {
+        store.commit('auth/updateUserData', user_data);
+      })
+      .catch(err => {
+        console.error(err);
+        // location.replace('/login');
+      })
     }
 })
 </script>

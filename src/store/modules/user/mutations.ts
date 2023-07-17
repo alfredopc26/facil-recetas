@@ -23,8 +23,6 @@ export function updateUserData(state, userData) {
   state.userData = userData;
 }
 
-
 export function setUserData(state, userData) {
-  state.user = userData;
-  state.email = userData.email;
+  state.userData = userData;
 }
